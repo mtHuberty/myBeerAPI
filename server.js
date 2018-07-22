@@ -7,17 +7,16 @@ const beers = require('./app/routes/beers')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
-// Middleware example
-app.use((req, res, next) => {
-    console.log("Something's hitting me!")
-    next()
+
+mongoose.connect('mongodb://localhost:27017/beers', { useNewUrlParser: true })
+
+mongoose.connection.on('connected', () => {
+    console.log('Connected to "beers" database');
 })
 
-app.use((req, res, next) => {
-    console.log("What about me??")
-    next()
+mongoose.connection.on('error', (err) => {
+    console.log(`Got an error!:\n${err}`);
 })
-
 
 // Basic route
 app.get('/', (req, res) => {
